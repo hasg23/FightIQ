@@ -1,13 +1,17 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import type { Fighter } from "../types/Fighter";
-
+import { useNavigate } from "react-router-dom";
 interface FighterCardProps {
     fighter: Fighter
 }
 function FighterCard({ fighter }: FighterCardProps) {
+    const navigate = useNavigate()
+    const handleNavigate = () => {
+        navigate(`/fighter/${fighter.id}`)
+    }
     return (
         <div>
-            <Card sx={{ maxWidth: 345, alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <Card sx={{ maxWidth: 345, alignItems: "center", display: "flex", flexDirection: "column", justifyContent: "center" }} onClick={handleNavigate}>
                 <CardContent>
                     <Typography variant="h5" component="div" sx={{ fontSize: 14, alignItems: "center", display: "flex", flexDirection: "column" }}>
                         {fighter.name}

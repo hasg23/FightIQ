@@ -1,8 +1,9 @@
 import { useState } from "react"
 import type { Fighter } from "../types/Fighter"
 import { searchFighters } from "../services/fighterService"
-import { Box, CircularProgress, Grid } from "@mui/material"
+import { Grid } from "@mui/material"
 import FighterCard from "../components/FighterCard"
+import Loading from "../components/Loading"
 
 
 function Home() {
@@ -44,7 +45,7 @@ function Home() {
                 Search
             </button>
             {
-                loading ? <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}><CircularProgress /></Box> :
+                loading ? <Loading /> :
                     error ? <p>{error}</p> :
                         <Grid container spacing={2}>
                             {fighter.map((f) => (

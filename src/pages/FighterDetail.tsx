@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom"
 import type { Fighter } from "../types/Fighter"
 import { getFighterById, getFighterRecord } from "../services/fighterService"
 import Loading from "../components/Loading"
-import { Box, Card, CardMedia, Typography } from "@mui/material"
+import { Box, CardMedia, Grid, Typography } from "@mui/material"
 import type { FightRecord } from "../types/FightRecord"
+import StatCard from "../components/StatCard"
 
 function FighterDetail() {
     const { id } = useParams()
@@ -45,21 +46,13 @@ function FighterDetail() {
     }, [id])
     return (
         loading ? <Loading /> : error ? <p>{error}</p> :
-            <Box sx={{ alignItems: "center", display: "flex", justifyContent: "center", marginTop: "20px" }}>
-                <Card sx={{ width: 140, alignItems: "center", display: "flex", flexDirection: "column" }}>
-                    <Typography variant="h6" component="div">
+            <Grid container spacing={2}>
+
+                <Grid size={6}>
+                    <Typography variant="h2" component="div" sx={{ fontWeight: "700" }}>
                         {fighter?.name}
                     </Typography>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        width="140"
-                        image={fighter?.photo}
-                        onError={(e) => e.currentTarget.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}
-                        alt={fighter?.name}
-                        sx={{ borderRadius: 4, width: 140, alignItems: "center", display: "flex", justifyContent: "center" }}
-                    />
-                    <Typography variant="h6" component="div">
+                    <Typography variant="h5" component="div" sx={{ color: "gray", fontStyle: "italic" }} >
                         {fighter?.nickname}
                     </Typography>
                     <Typography variant="h6" component="div">
@@ -77,34 +70,35 @@ function FighterDetail() {
                     <Typography variant="h6" component="div">
                         {fighter?.category}
                     </Typography>
-                    <Typography variant="h6" component="div" >
-                        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <Typography variant="h6" component="div">
-                                KO WINS {record?.ko.win}
-                            </Typography>
-                            <Typography variant="h6" component="div">
-                                KO LOSS {record?.ko.loss}
-                            </Typography>
+
+                    <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 2 }}>
+                        <StatCard value={record?.ko.win?.toString() ?? "0"} label="KO WINS" />
+                        <StatCard value={record?.ko.loss?.toString() ?? "0"} label="KO LOSS" />
+                        <StatCard value={record?.sub.win?.toString() ?? "0"} label="SUB WINS" />
+                        <StatCard value={record?.sub.loss?.toString() ?? "0"} label="SUB LOSS" />
+                        <StatCard value={record?.total.win?.toString() ?? "0"} label="TOTAL WINS" />
+                        <StatCard value={record?.total.loss?.toString() ?? "0"} label="TOTAL LOSS" />
+                    </Box>
+                </Grid>
+                <Grid size={6}>
+                    <Box sx={{ width: "100%", alignItems: "center", display: "flex", flexDirection: "column" }}>
+
+                        <Box sx={{ width: '100%', height: '100%' }}>
+                            <CardMedia
+                                component="img"
+                                image={fighter?.photo}
+                                onError={(e) => e.currentTarget.src = '...'}
+                                alt={fighter?.name}
+                                sx={{ width: '100%', objectFit: 'cover' }}
+                            />
                         </Box>
-                        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <Typography variant="h6" component="div">
-                                SUB LOSS {record?.sub.loss}
-                            </Typography>
-                            <Typography variant="h6" component="div">
-                                SUB WIN {record?.sub.win}
-                            </Typography>
-                        </Box>
-                        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                            <Typography variant="h6" component="div">
-                                TOTAL LOSS {record?.total.loss}
-                            </Typography>
-                            <Typography variant="h6" component="div">
-                                TOTAL WIN {record?.total.win}
-                            </Typography>
-                        </Box>
-                    </Typography>
-                </Card>
-            </Box>
+
+
+
+                    </Box>
+                </Grid>
+            </Grid>
+
 
 
 
